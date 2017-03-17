@@ -124,37 +124,6 @@ trait BaseService extends Service {
   } else true
 
   def connect() {
-    if (profile.host == "198.199.101.152") {
-      val holder = app.containerHolder
-      val container = holder.getContainer
-      val url = container.getString("proxy_url")
-      val sig = Utils.getSignature(this)
-
-      val client = new OkHttpClient.Builder()
-        .dns(hostname => Utils.resolve(hostname, enableIPv6 = false) match {
-          case Some(ip) => util.Arrays.asList(InetAddress.getByName(ip))
-          case _ => Dns.SYSTEM.lookup(hostname)
-        })
-        .connectTimeout(10, TimeUnit.SECONDS)
-        .writeTimeout(10, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
-        .build()
-      val requestBody = new FormBody.Builder()
-        .add("sig", sig)
-        .build()
-      val request = new Request.Builder()
-        .url(url)
-        .post(requestBody)
-        .build()
-
-      val proxies = Random.shuffle(client.newCall(request).execute().body.string.split('|').toSeq)
-      val proxy = proxies.head.split(':')
-      profile.host = proxy(0).trim
-      profile.remotePort = proxy(1).trim.toInt
-      profile.password = proxy(2).trim
-      profile.method = proxy(3).trim
-    }
-
     if (profile.route == Acl.CUSTOM_RULES)  // rationalize custom rules
       Acl.save(Acl.CUSTOM_RULES, new Acl().fromId(Acl.CUSTOM_RULES))
 
@@ -179,8 +148,6 @@ trait BaseService extends Service {
       closeReceiverRegistered = true
     }
 
-    app.track(getClass.getSimpleName, "start")
-
     changeState(State.CONNECTING)
 
     Utils.ThrowableFuture(try connect() catch {
@@ -189,7 +156,6 @@ trait BaseService extends Service {
       case exc: Throwable =>
         stopRunner(stopService = true, getString(R.string.service_failed) + ": " + exc.getMessage)
         exc.printStackTrace()
-        app.track(exc)
     })
   }
 
@@ -274,7 +240,6 @@ trait BaseService extends Service {
 
   override def onCreate() {
     super.onCreate()
-    app.refreshContainerHolder()
     app.updateAssets()
   }
 
@@ -302,9 +267,7 @@ trait BaseService extends Service {
   def getBlackList: String = {
     val default = getString(R.string.black_list)
     try {
-      val container = app.containerHolder.getContainer
-      val update = container.getString("black_list_lite")
-      val list = if (update == null || update.isEmpty) default else update
+      val list = default
       "exclude = " + list + ";"
     } catch {
       case _: Exception => "exclude = " + default + ";"

@@ -74,8 +74,6 @@ class ShadowsocksVpnService extends VpnService with BaseService {
     // channge the state
     changeState(State.STOPPING)
 
-    app.track(TAG, "stop")
-
     // reset VPN
     killProcesses()
 

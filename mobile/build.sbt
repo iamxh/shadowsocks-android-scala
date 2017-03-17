@@ -7,7 +7,6 @@ versionCode := Some(183)
 
 proguardOptions ++=
   "-keep class com.github.shadowsocks.JniHelper { *; }" ::
-  "-dontwarn com.google.android.gms.internal.**" ::
   "-dontwarn com.j256.ormlite.**" ::
   "-dontwarn okio.**" ::
   "-dontwarn org.xbill.**" ::
@@ -19,9 +18,6 @@ libraryDependencies ++=
   "com.futuremind.recyclerfastscroll" % "fastscroll" % "0.2.5" ::
   "com.evernote" % "android-job" % "1.1.7" ::
   "com.github.jorgecastilloprz" % "fabprogresscircle" % "1.01" ::
-  "com.google.android.gms" % "play-services-ads" % playServicesVersion ::
-  "com.google.android.gms" % "play-services-analytics" % playServicesVersion ::
-  "com.google.android.gms" % "play-services-gcm" % playServicesVersion ::
   "com.j256.ormlite" % "ormlite-android" % "5.0" ::
   "com.mikepenz" % "crossfader" % "1.5.0" ::
   "com.mikepenz" % "fastadapter" % "2.1.7" ::

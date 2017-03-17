@@ -214,8 +214,6 @@ class ShadowsocksNatService extends BaseService {
     // channge the state
     changeState(State.STOPPING)
 
-    app.track(TAG, "stop")
-
     // reset NAT
     killProcesses()
 
