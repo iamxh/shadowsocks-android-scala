@@ -327,7 +327,6 @@ final class ProfilesFragment extends ToolbarFragment with Toolbar.OnMenuItemClic
         case _: ActivityNotFoundException => installScanner()
         case e: SecurityException =>
           e.printStackTrace()
-          app.track(e)
           installScanner()
       }
       true
