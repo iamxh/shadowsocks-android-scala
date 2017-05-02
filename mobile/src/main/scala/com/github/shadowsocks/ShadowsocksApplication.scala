@@ -21,9 +21,7 @@
 package com.github.shadowsocks
 
 import java.io.{File, FileOutputStream, IOException}
-import java.util
 import java.util.Locale
-import java.util.concurrent.TimeUnit
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -58,7 +56,6 @@ object ShadowsocksApplication {
 class ShadowsocksApplication extends Application {
   import ShadowsocksApplication._
 
-  final val SIG_FUNC = "getSignature"
   lazy val settings: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
   lazy val editor: SharedPreferences.Editor = settings.edit
   lazy val profileManager = new ProfileManager(new DBHelper(this))
@@ -139,7 +136,6 @@ class ShadowsocksApplication extends Application {
 
     TcpFastOpen.enabled(settings.getBoolean(Key.tfo, TcpFastOpen.sendEnabled))
   }
-
 
   def crashRecovery() {
     val cmd = new ArrayBuffer[String]()

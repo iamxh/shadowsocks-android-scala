@@ -2,14 +2,21 @@ enablePlugins(AndroidApp)
 android.useSupportVectors
 
 name := "shadowsocks"
-version := "4.1.4"
-versionCode := Some(184)
+version := "4.1.6"
+versionCode := Some(186)
 
 proguardOptions ++=
-  "-keep class com.github.shadowsocks.JniHelper { *; }" ::
+  "-dontwarn com.evernote.android.job.gcm.**" ::
+  "-dontwarn com.evernote.android.job.util.GcmAvailableHelper" ::
   "-dontwarn com.j256.ormlite.**" ::
   "-dontwarn okio.**" ::
   "-dontwarn org.xbill.**" ::
+  "-keep public class com.evernote.android.job.v21.PlatformJobService" ::
+  "-keep public class com.evernote.android.job.v14.PlatformAlarmService" ::
+  "-keep public class com.evernote.android.job.v14.PlatformAlarmReceiver" ::
+  "-keep public class com.evernote.android.job.JobBootReceiver" ::
+  "-keep public class com.evernote.android.job.JobRescheduleService" ::
+  "-keep class com.github.shadowsocks.JniHelper { *; }" ::
   Nil
 
 val playServicesVersion = "10.2.1"
@@ -20,11 +27,11 @@ libraryDependencies ++=
   "com.github.jorgecastilloprz" % "fabprogresscircle" % "1.01" ::
   "com.j256.ormlite" % "ormlite-android" % "5.0" ::
   "com.mikepenz" % "crossfader" % "1.5.0" ::
-  "com.mikepenz" % "fastadapter" % "2.5.0" ::
-  "com.mikepenz" % "iconics-core" % "2.8.2" ::
+  "com.mikepenz" % "fastadapter" % "2.5.2" ::
+  "com.mikepenz" % "iconics-core" % "2.8.3" ::
   "com.mikepenz" % "materialdrawer" % "5.9.0" ::
   "com.mikepenz" % "materialize" % "1.0.1" ::
-  "com.squareup.okhttp3" % "okhttp" % "3.6.0" ::
+  "com.squareup.okhttp3" % "okhttp" % "3.7.0" ::
   "com.twofortyfouram" % "android-plugin-api-for-locale" % "1.0.2" ::
   "dnsjava" % "dnsjava" % "2.1.8" ::
   "eu.chainfire" % "libsuperuser" % "1.0.0.201704021214" ::
