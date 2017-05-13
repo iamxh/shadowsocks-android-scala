@@ -296,7 +296,7 @@ trait BaseService extends Service {
 
   protected final def buildOvertureConfig(file: String): String = {
     val config = new JSONObject()
-      .put("BindAddress", ":" + (profile.localPort + 53))
+      .put("BindAddress", "127.0.0.1:" + (profile.localPort + 53))
       .put("RedirectIPv6Record", true)
       .put("DomainBase64Decode", true)
       .put("HostsFile", "hosts")
