@@ -251,7 +251,6 @@ trait BaseService extends Service {
     }
 
     notification = createNotification()
-    app.track(getClass.getSimpleName, "start")
 
     changeState(State.CONNECTING)
 
@@ -261,7 +260,6 @@ trait BaseService extends Service {
       case exc: Throwable =>
         stopRunner(stopService = true, getString(R.string.service_failed) + ": " + exc.getMessage)
         exc.printStackTrace()
-        app.track(exc)
     })
     Service.START_NOT_STICKY
   }

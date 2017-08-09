@@ -368,7 +368,6 @@ class MainActivity extends Activity with ServiceBoundContext with Drawer.OnDrawe
     drawerItem.getIdentifier match {
       case DRAWER_PROFILES => displayFragment(new ProfilesFragment)
       case DRAWER_RECOVERY =>
-        app.track("GlobalConfigFragment", "reset")
         Utils.stopSsService(this)
         val dialog = ProgressDialog.show(this, "", getString(R.string.recovering), true, false)
         val handler = new Handler {
