@@ -56,6 +56,8 @@
   <string name="udp_dns_summary">Forward all DNS requests to remote</string>
 
   <!-- notification category -->
+  <string name="service_vpn">VPN Service</string>
+  <string name="service_nat">NAT Service</string>
   <string name="forward_success">Shadowsocks started.</string>
   <string name="invalid_server">Invalid server name</string>
   <string name="service_failed">Failed to connect the remote server</string>
@@ -130,7 +132,7 @@
   <string name="custom_rules">Custom rules</string>
   <string name="action_selection">Selection…</string>
   <string name="action_add_rule">Add rule(s)…</string>
-  <string name="acl_rule_templates_generic">Subnet/Hostname PCRE pattern</string>
+  <string name="acl_rule_templates_generic">URL, Subnet or Hostname PCRE pattern</string>
   <string name="acl_rule_templates_domain">Domain name and all its subdomain names</string>
   <string name="edit_rule">Edit rule</string>
 
