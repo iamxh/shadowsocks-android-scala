@@ -2,8 +2,8 @@ enablePlugins(AndroidApp)
 android.useSupportVectors
 
 name := "shadowsocks"
-version := "4.2.2"
-versionCode := Some(192)
+version := "4.2.3"
+versionCode := Some(193)
 
 proguardOptions ++=
   "-dontwarn com.j256.ormlite.**" ::
