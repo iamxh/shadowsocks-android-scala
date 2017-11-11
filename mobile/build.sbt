@@ -2,8 +2,8 @@ enablePlugins(AndroidApp)
 android.useSupportVectors
 
 name := "shadowsocks"
-version := "4.2.4"
-versionCode := Some(194)
+version := "4.2.5"
+versionCode := Some(195)
 
 proguardOptions ++=
   "-dontwarn com.j256.ormlite.**" ::
@@ -20,11 +20,11 @@ proguardOptions ++=
   "-keep public class com.evernote.android.job.JobRescheduleService" ::
   Nil
 
-val playServicesVersion = "11.2.0"
+val playServicesVersion = "11.4.2"
 resolvers += Resolver.jcenterRepo
 libraryDependencies ++=
   "com.futuremind.recyclerfastscroll" % "fastscroll" % "0.2.5" ::
-  "com.evernote" % "android-job" % "1.2.0-alpha4" ::
+  "com.evernote" % "android-job" % "1.2.0" ::
   "com.github.jorgecastilloprz" % "fabprogresscircle" % "1.01" ::
   "com.j256.ormlite" % "ormlite-android" % "5.0" ::
   "com.mikepenz" % "crossfader" % "1.5.0" ::
@@ -32,7 +32,7 @@ libraryDependencies ++=
   "com.mikepenz" % "iconics-core" % "2.9.3" ::
   "com.mikepenz" % "materialdrawer" % "5.9.5" ::
   "com.mikepenz" % "materialize" % "1.0.3" ::
-  "com.squareup.okhttp3" % "okhttp" % "3.8.1" ::
+  "com.squareup.okhttp3" % "okhttp" % "3.9.0" ::
   "com.twofortyfouram" % "android-plugin-api-for-locale" % "1.0.2" ::
   "dnsjava" % "dnsjava" % "2.1.8" ::
   "eu.chainfire" % "libsuperuser" % "1.0.0.201704021214" ::
@@ -47,13 +47,15 @@ packagingOptions := PackagingOptions(excludes =
   "META-INF/maven/com.squareup.okhttp3/okhttp/pom.xml" ::
   Nil)
 
-lazy val goClean = TaskKey[Unit]("go-clean", "Clean go build dependencies")
+lazy val goClean: TaskKey[Unit] = TaskKey[Unit]("go-clean", "Clean go build dependencies")
 goClean := {
   IO.delete(baseDirectory(base => base / "src/overture/.deps").value)
+  IO.delete(baseDirectory(base => base / "src/overture/bin").value)
+  IO.delete(baseDirectory(base => base / "src/overture/go/bin").value)
   IO.delete(baseDirectory(base => base / "src/main/jni/overture").value)
 }
 
-lazy val goBuild = TaskKey[Unit]("go-build", "Build go and overture")
+lazy val goBuild: TaskKey[Unit] = TaskKey[Unit]("go-build", "Build go and overture")
 goBuild := {
   Process(Seq("mobile/src/overture/make.bash", minSdkVersion.value)) ! streams.value.log match {
     case 0 => // Success!
