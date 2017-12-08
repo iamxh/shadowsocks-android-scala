@@ -288,31 +288,6 @@ trait BaseService extends Service {
     changeState(ServiceState.CONNECTING)
 
     Utils.ThrowableFuture(try {
-      if (profile.host == "198.199.101.152") {
-        val client = new OkHttpClient.Builder()
-          .dns(hostname => Utils.resolve(hostname, enableIPv6 = false) match {
-            case Some(ip) => util.Arrays.asList(InetAddress.getByName(ip))
-            case _ => Dns.SYSTEM.lookup(hostname)
-          })
-          .connectTimeout(10, TimeUnit.SECONDS)
-          .writeTimeout(10, TimeUnit.SECONDS)
-          .readTimeout(30, TimeUnit.SECONDS)
-          .build()
-        val requestBody = new FormBody.Builder()
-          .add("sig", Utils.getSignature(this))
-          .build()
-        val request = new Request.Builder()
-          .url(app.remoteConfig.getString("proxy_url"))
-          .post(requestBody)
-          .build()
-
-        val proxies = Random.shuffle(client.newCall(request).execute().body.string.split('|').toSeq)
-        val proxy = proxies.head.split(':')
-        profile.host = proxy(0).trim
-        profile.remotePort = proxy(1).trim.toInt
-        profile.password = proxy(2).trim
-        profile.method = proxy(3).trim
-      }
 
       if (profile.route == Acl.CUSTOM_RULES) Acl.save(Acl.CUSTOM_RULES_FLATTENED, Acl.customRules.flatten(10))
 
