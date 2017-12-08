@@ -31,6 +31,7 @@ import android.view.View.OnLongClickListener
 import android.view._
 import android.widget.{LinearLayout, PopupMenu, TextView, Toast}
 import com.github.shadowsocks.ShadowsocksApplication.app
+import com.github.shadowsocks.bg.{ServiceState, TrafficMonitor}
 import com.github.shadowsocks.database.Profile
 import com.github.shadowsocks.plugin.PluginConfiguration
 import com.github.shadowsocks.utils._
@@ -55,12 +56,12 @@ final class ProfilesFragment extends ToolbarFragment with Toolbar.OnMenuItemClic
     * Is ProfilesFragment editable at all.
     */
   private def isEnabled = getActivity.asInstanceOf[MainActivity].state match {
-    case State.CONNECTED | State.STOPPED => true
+    case ServiceState.CONNECTED | ServiceState.STOPPED => true
     case _ => false
   }
   private def isProfileEditable(id: => Int) = getActivity.asInstanceOf[MainActivity].state match {
-    case State.CONNECTED => id != app.dataStore.profileId
-    case State.STOPPED => true
+    case ServiceState.CONNECTED => id != app.dataStore.profileId
+    case ServiceState.STOPPED => true
     case _ => false
   }
 
@@ -76,8 +77,6 @@ final class ProfilesFragment extends ToolbarFragment with Toolbar.OnMenuItemClic
     edit.setOnClickListener(_ => startConfig(item.id))
     edit.setOnLongClickListener(cardButtonLongClickListener)
     itemView.setOnClickListener(this)
-    // it will not take effect unless set in code
-    itemView.findViewById[View](R.id.indicator).setBackgroundResource(R.drawable.background_profile)
 
 
     def bind(item: Profile) {
@@ -124,7 +123,7 @@ final class ProfilesFragment extends ToolbarFragment with Toolbar.OnMenuItemClic
       app.switchProfile(item.id)
       profilesAdapter.refreshId(old)
       itemView.setSelected(true)
-      if (activity.state == State.CONNECTED) Utils.reloadSsService(activity)
+      if (activity.state == ServiceState.CONNECTED) Utils.reloadSsService(activity)
     }
 
     override def onMenuItemClick(menu: MenuItem): Boolean = menu.getItemId match {
@@ -236,6 +235,7 @@ final class ProfilesFragment extends ToolbarFragment with Toolbar.OnMenuItemClic
     val profilesList = view.findViewById[RecyclerView](R.id.list)
     val layoutManager = new LinearLayoutManager(getActivity, LinearLayoutManager.VERTICAL, false)
     profilesList.setLayoutManager(layoutManager)
+    profilesList.addItemDecoration(new DividerItemDecoration(getActivity, layoutManager.getOrientation))
     layoutManager.scrollToPosition(profilesAdapter.profiles.zipWithIndex.collectFirst {
       case (profile, i) if profile.id == app.dataStore.profileId => i
     }.getOrElse(-1))

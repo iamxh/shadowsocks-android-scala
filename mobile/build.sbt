@@ -2,8 +2,8 @@ enablePlugins(AndroidApp)
 android.useSupportVectors
 
 name := "shadowsocks"
-version := "4.2.5"
-versionCode := Some(195)
+version := "4.3.2"
+versionCode := Some(198)
 
 proguardOptions ++=
   "-dontwarn com.j256.ormlite.**" ::
@@ -20,19 +20,19 @@ proguardOptions ++=
   "-keep public class com.evernote.android.job.JobRescheduleService" ::
   Nil
 
-val playServicesVersion = "11.4.2"
+val playServicesVersion = "11.6.2"
 resolvers += Resolver.jcenterRepo
 libraryDependencies ++=
   "com.futuremind.recyclerfastscroll" % "fastscroll" % "0.2.5" ::
-  "com.evernote" % "android-job" % "1.2.0" ::
+  "com.evernote" % "android-job" % "1.2.1" ::
   "com.github.jorgecastilloprz" % "fabprogresscircle" % "1.01" ::
   "com.j256.ormlite" % "ormlite-android" % "5.0" ::
-  "com.mikepenz" % "crossfader" % "1.5.0" ::
-  "com.mikepenz" % "fastadapter" % "2.6.3" ::
-  "com.mikepenz" % "iconics-core" % "2.9.3" ::
-  "com.mikepenz" % "materialdrawer" % "5.9.5" ::
-  "com.mikepenz" % "materialize" % "1.0.3" ::
-  "com.squareup.okhttp3" % "okhttp" % "3.9.0" ::
+  "com.mikepenz" % "crossfader" % "1.5.1" ::
+  "com.mikepenz" % "fastadapter" % "3.0.4" ::
+  "com.mikepenz" % "iconics-core" % "3.0.0" ::
+  "com.mikepenz" % "materialdrawer" % "6.0.2" ::
+  "com.mikepenz" % "materialize" % "1.1.2" ::
+  "com.squareup.okhttp3" % "okhttp" % "3.9.1" ::
   "com.twofortyfouram" % "android-plugin-api-for-locale" % "1.0.2" ::
   "dnsjava" % "dnsjava" % "2.1.8" ::
   "eu.chainfire" % "libsuperuser" % "1.0.0.201704021214" ::
